@@ -1,0 +1,9 @@
+/* Scoped only inside a container you apply */
+.wrapper :global(.p-menubar) {
+  border-radius: 0;
+}
+
+.wrapper :global(.p-menubar .p-menuitem),
+.wrapper :global(.p-menubar .p-submenu) {
+  border-radius: 0;
+}
