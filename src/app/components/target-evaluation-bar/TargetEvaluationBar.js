@@ -1,4 +1,6 @@
 import React from "react";
+import { useEffect, useState } from "react";
+
 import { Button } from "primereact/button";
 import { MultiSelect } from "primereact/multiselect";
 import { InputText } from "primereact/inputtext";
@@ -6,30 +8,60 @@ import { InputText } from "primereact/inputtext";
 import "primeflex/primeflex.css";
 
 const TargetEvaluationBar = () => {
-  const [selectedGenes, setSelectedGenes] = React.useState([]);
-  const onGeneChange = (e) => {
-    setSelectedGenes(e.value);
+  const [selectedGenes, setSelectedGenes] = useState([]);
+  const [targetName, setTargetName] = useState("");
+  const [loadingGenes, setLoadingGenes] = useState(true);
+
+  const [genes, setGenes] = useState(null);
+
+  useEffect(() => {
+    setLoadingGenes(true);
+    fetch("/data/genes.json")
+      .then((r) => r.json())
+      .then((data) => {
+        // ✅ Sort by Name (case-insensitive)
+        const sorted = data.sort((a, b) =>
+          a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
+        );
+        setGenes(sorted);
+      })
+      .catch(console.error)
+      .finally(() => setLoadingGenes(false));
+  }, []);
+
+  // Capitalize first letter, leave rest as-is
+  const formatGeneName = (name) => {
+    if (!name || typeof name !== "string") return "";
+    return name.charAt(0).toUpperCase() + name.slice(1);
   };
 
-  const [targetName, setTargetName] = React.useState("");
+  const onGeneChange = (e) => {
+    const sel = e.value || [];
+    console.log(e.value);
+    setSelectedGenes(sel);
+    let joined =
+      sel.length > 0
+        ? sel
+            .map((g) => formatGeneName(g?.Name ?? ""))
+            .filter(Boolean)
+            .join("-")
+        : "";
 
-  const genes = [
-    { name: "DnaA", accessionNo: "Rv0001" },
-    { name: "DnaN", accessionNo: "Rv0005" },
-    { name: "RpoB", accessionNo: "Rv0667" },
-    { name: "GroEL2", accessionNo: "Rv0440" },
-    { name: "SodA", accessionNo: "Rv1908c" },
-  ];
+    setTargetName(joined);
+  };
 
   return (
     <div className="flex justify-content-between align-items-center p-3 w-full surface-100">
       <div className="flex">
         <MultiSelect
           value={selectedGenes}
-          onChange={(e) => onGeneChange(e.value)}
+          loading={loadingGenes}
+          onChange={(e) => onGeneChange(e)}
           options={genes}
-          optionLabel="name"
+          optionLabel="Name"
           placeholder="Select genes for target evaluation"
+          virtualScrollerOptions={{ itemSize: 43 }}
+          filter
           className="w-full md:w-20rem"
         />
       </div>
