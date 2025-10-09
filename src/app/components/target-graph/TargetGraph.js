@@ -16,9 +16,9 @@ export default function TargetGraph() {
     return arr;
   }
 
-  const x = generateRandomArray(123, 1, 100);
-  const y = generateRandomArray(123, 1, 100);
-  const z = generateRandomArray(123, 1, 100);
+  const x = generateRandomArray(15, 1, 100);
+  const y = generateRandomArray(15, 1, 100);
+  const z = generateRandomArray(15, 1, 100);
 
   const trace1 = {
     x: x,
