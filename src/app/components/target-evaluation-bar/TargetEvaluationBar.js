@@ -1,17 +1,23 @@
 import React from "react";
 import { useEffect, useState } from "react";
-
 import { Button } from "primereact/button";
 import { MultiSelect } from "primereact/multiselect";
 import { InputText } from "primereact/inputtext";
 
 import "primeflex/primeflex.css";
+import { useUIStore } from "@/app/stores/useUIStore";
+import { useQuestionStore } from "@/app/stores/useQuestionStore";
 
 const TargetEvaluationBar = ({ onEvaluate }) => {
-  const [selectedGenes, setSelectedGenes] = useState([]);
-  const [targetName, setTargetName] = useState("");
-  const [loadingGenes, setLoadingGenes] = useState(true);
+  const {
+    selectedTargetName,
+    setSelectedTargetName,
+    selectedGenes,
+    setSelectedGenes,
+  } = useUIStore();
 
+  const { loadQuestionnaireFromUrl, loadingQuestionnaire } = useQuestionStore();
+  const [loadingGenes, setLoadingGenes] = useState(true);
   const [genes, setGenes] = useState(null);
 
   useEffect(() => {
@@ -49,7 +55,7 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
             .join("-")
         : "";
 
-    setTargetName(joined);
+    setSelectedTargetName(joined);
   };
 
   return (
@@ -71,8 +77,8 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
         <div className="flex">Target Name</div>
         <div className="flex">
           <InputText
-            value={targetName}
-            onChange={(e) => setTargetName(e.target.value)}
+            value={selectedTargetName}
+            onChange={(e) => setSelectedTargetName(e.target.value)}
           />
         </div>
       </div>
@@ -90,13 +96,25 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
           label="Evaluate"
           icon="pi pi-check"
           onClick={() => onEvaluate()}
-          disabled={selectedGenes.length === 0 || !targetName}
+          disabled={selectedGenes.length === 0 || !selectedTargetName}
         />
-        <Button label="Restore" icon="pi pi-refresh" />
+        <Button
+          label="Load TBDA Target"
+          icon="pi pi-refresh"
+          onClick={() =>
+            loadQuestionnaireFromUrl(
+              `https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/tbda/${selectedTargetName}.json`
+            )
+          }
+          loading={loadingQuestionnaire}
+          disabled={selectedGenes.length === 0 || !selectedTargetName}
+        />
+
+        <Button label="Upload PDF" icon="pi pi-upload" />
         <Button
           label="Download PDF"
           icon="pi pi-download"
-          disabled={selectedGenes.length === 0 || !targetName}
+          disabled={selectedGenes.length === 0 || !selectedTargetName}
         />
       </div>
     </div>

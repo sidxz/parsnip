@@ -1,24 +1,47 @@
 "use client";
 import React from "react";
 import dynamic from "next/dynamic";
+import { useTargetsStore } from "@/app/stores/useTargetStore";
 
 // Dynamically import Plot to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
 });
 
-export default function TargetGraph({ scores }) {
-  function generateRandomArray(length, min, max) {
-    const arr = [];
-    for (let i = 0; i < length; i++) {
-      arr.push(Math.floor(Math.random() * (max - min + 1)) + min);
-    }
-    return arr;
+export default function TargetGraph({ scores, evaluatedTarget = "" }) {
+  const {
+    targets,
+    loadingTargets,
+    targetsError,
+    loadTargets,
+    filterTargetsByName,
+  } = useTargetsStore();
+
+  if (loadingTargets) {
+    return <div>Loading targets...</div>;
   }
 
-  const x = generateRandomArray(15, 1, 100);
-  const y = generateRandomArray(15, 1, 100);
-  const z = generateRandomArray(15, 1, 100);
+  console.log("Targets loaded:", targets);
+
+  // Keep only targets with all three numeric scores
+  const valid = targets.filter(
+    (t) =>
+      Number.isFinite(t?.chemicalInhibitionScore) &&
+      Number.isFinite(t?.geneticInhibitionScore) &&
+      Number.isFinite(t?.likelihoodScore)
+  );
+
+  const x = valid.map((t) => t.chemicalInhibitionScore);
+  const y = valid.map((t) => t.geneticInhibitionScore);
+  const z = valid.map((t) => t.likelihoodScore);
+
+  const hoverText = valid.map((t) => {
+    const acc = Array.isArray(t.accessionNumber)
+      ? t.accessionNumber.join(", ")
+      : t.accessionNumber ?? "";
+    return `${t.targetName || "Unknown"} (${acc})`;
+  });
+  console.log("Hover texts:", hoverText);
 
   const trace1 = {
     x: x,
@@ -37,16 +60,18 @@ export default function TargetGraph({ scores }) {
       },
     },
     name: "TBDA Targets",
+    text: hoverText,
     hovertemplate:
+      "Target: %{text}<br>" +
       "Chemical Inhibition: %{x}<br>" +
       "Genetic Inhibition: %{y}<br>" +
       "Likelihood: %{z}",
   };
 
   const trace2 = {
-    x: scores?.chemistryScore ? [scores.chemistryScore] : [0],
-    y: scores?.geneticsScore ? [scores.geneticsScore] : [0],
-    z: [55],
+    x: scores?.chemistryScore ? [scores.chemistryScore] : [],
+    y: scores?.geneticScore ? [scores.geneticScore] : [],
+    z: scores?.geneticScore ? [0] : [],
     mode: "markers", // Options: "markers", "lines", "lines+markers"
     type: "scatter3d", // For 3D scatter plot
     marker: {
@@ -63,6 +88,9 @@ export default function TargetGraph({ scores }) {
     text: ["Custom label"], // Optional: hover text
     visible: true, // Show/hide trace
     hovertemplate:
+      "Evaluated Target: " +
+      evaluatedTarget +
+      "<br>" +
       "Chemical Inhibition: %{x}<br>" +
       "Genetic Inhibition: %{y}<br>" +
       "Likelihood: %{z}",
