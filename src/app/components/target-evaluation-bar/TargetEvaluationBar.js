@@ -7,7 +7,7 @@ import { InputText } from "primereact/inputtext";
 
 import "primeflex/primeflex.css";
 
-const TargetEvaluationBar = () => {
+const TargetEvaluationBar = ({onEvaluate}) => {
   const [selectedGenes, setSelectedGenes] = useState([]);
   const [targetName, setTargetName] = useState("");
   const [loadingGenes, setLoadingGenes] = useState(true);
@@ -16,10 +16,10 @@ const TargetEvaluationBar = () => {
 
   useEffect(() => {
     setLoadingGenes(true);
-    fetch("/data/genes.json")
+    fetch("https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/data/genes.json")
       .then((r) => r.json())
       .then((data) => {
-        // ✅ Sort by Name (case-insensitive)
+        // Sort by Name (case-insensitive)
         const sorted = data.sort((a, b) =>
           a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
         );
@@ -84,7 +84,7 @@ const TargetEvaluationBar = () => {
           icon="pi pi-undo"
           className="p-button-secondary"
         />
-        <Button label="Evaluate" icon="pi pi-check" />
+        <Button label="Evaluate" icon="pi pi-check" onClick={() => onEvaluate()} />
         <Button label="Restore" icon="pi pi-refresh" />
         <Button label="Download PDF" icon="pi pi-download" />
       </div>

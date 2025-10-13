@@ -1,26 +1,27 @@
+'use client';
 import React from 'react';
-import { Card } from 'primereact/card';
 import TargetQuestion from '../target-question/TargetQuestion';
+import { useQuestionStore } from '@/app/stores/useQuestionStore';
 
-const questions = [
-  "What is the main objective of this promotion?",
-  "Who is the target audience for this promotion?",
-  "What channels will be used to promote?",
-  "What is the expected duration of the promotion?",
-  "What is the budget allocated for this promotion?",
-  "What are the key performance indicators (KPIs)?",
-  "Are there any legal or compliance considerations?",
-  "What creative assets are required?",
-  "How will success be measured?",
-  "Who are the stakeholders involved?"
-];
+const TargetQuestionnaire = () => {
+  const { questions, loading, loadQuestions, error } = useQuestionStore();
 
-const TargetQuestionnaire = () => (
-    <div className='flex flex-column gap-2 m-2 w-full align-items-center'>
-      {questions.map((q, idx) => (
-        <div className="flex" key={idx}> <TargetQuestion question={q} /> </div>
+  React.useEffect(() => {
+    // load once on mount
+    loadQuestions();
+    console.log(questions);
+  }, [loadQuestions]);
+
+  if (loading) return <div>Loading questions...</div>;
+  if (error) return <div className="text-red-500">Error: {error}</div>;
+
+  return (
+    <div className="flex flex-column gap-2 m-2 w-full align-items-center border-0">
+      {questions.map((q) => (
+        <TargetQuestion question={q} key={q.id} />
       ))}
     </div>
-);
+  );
+};
 
 export default TargetQuestionnaire;
