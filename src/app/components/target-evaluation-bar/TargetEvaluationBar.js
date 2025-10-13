@@ -7,7 +7,7 @@ import { InputText } from "primereact/inputtext";
 
 import "primeflex/primeflex.css";
 
-const TargetEvaluationBar = ({onEvaluate}) => {
+const TargetEvaluationBar = ({ onEvaluate }) => {
   const [selectedGenes, setSelectedGenes] = useState([]);
   const [targetName, setTargetName] = useState("");
   const [loadingGenes, setLoadingGenes] = useState(true);
@@ -16,7 +16,9 @@ const TargetEvaluationBar = ({onEvaluate}) => {
 
   useEffect(() => {
     setLoadingGenes(true);
-    fetch("https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/data/genes.json")
+    fetch(
+      "https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/data/genes.json"
+    )
       .then((r) => r.json())
       .then((data) => {
         // Sort by Name (case-insensitive)
@@ -78,15 +80,24 @@ const TargetEvaluationBar = ({onEvaluate}) => {
       <div className="flex align-items-center"></div>
       {/* Right Section (existing buttons) */}
       <div className="flex justify-content-end gap-1">
-        <Button label="Save" icon="pi pi-save" className="p-button-success" />
+        {/* <Button label="Save" icon="pi pi-save" className="p-button-success" />
         <Button
           label="Reset"
           icon="pi pi-undo"
           className="p-button-secondary"
+        /> */}
+        <Button
+          label="Evaluate"
+          icon="pi pi-check"
+          onClick={() => onEvaluate()}
+          disabled={selectedGenes.length === 0 || !targetName}
         />
-        <Button label="Evaluate" icon="pi pi-check" onClick={() => onEvaluate()} />
         <Button label="Restore" icon="pi pi-refresh" />
-        <Button label="Download PDF" icon="pi pi-download" />
+        <Button
+          label="Download PDF"
+          icon="pi pi-download"
+          disabled={selectedGenes.length === 0 || !targetName}
+        />
       </div>
     </div>
   );

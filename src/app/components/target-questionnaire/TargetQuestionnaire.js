@@ -2,6 +2,7 @@
 import React from 'react';
 import TargetQuestion from '../target-question/TargetQuestion';
 import { useQuestionStore } from '@/app/stores/useQuestionStore';
+import Loading from '../ui/Loading';
 
 const TargetQuestionnaire = () => {
   const { questions, loading, loadQuestions, error } = useQuestionStore();
@@ -12,7 +13,7 @@ const TargetQuestionnaire = () => {
     console.log(questions);
   }, [loadQuestions]);
 
-  if (loading) return <div>Loading questions...</div>;
+  if (loading) return <Loading />;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
   return (

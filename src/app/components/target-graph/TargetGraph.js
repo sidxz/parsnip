@@ -7,7 +7,7 @@ const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
 });
 
-export default function TargetGraph() {
+export default function TargetGraph({ scores }) {
   function generateRandomArray(length, min, max) {
     const arr = [];
     for (let i = 0; i < length; i++) {
@@ -44,8 +44,8 @@ export default function TargetGraph() {
   };
 
   const trace2 = {
-    x: [46],
-    y: [25],
+    x: scores?.chemistryScore ? [scores.chemistryScore] : [0],
+    y: scores?.geneticsScore ? [scores.geneticsScore] : [0],
     z: [55],
     mode: "markers", // Options: "markers", "lines", "lines+markers"
     type: "scatter3d", // For 3D scatter plot
