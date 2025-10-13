@@ -14,6 +14,8 @@ import { useConstantsStore } from "../stores/useConstantStore";
 import Loading from "../components/ui/Loading";
 import { useUIStore } from "../stores/useUIStore";
 import { useTargetsStore } from "../stores/useTargetStore";
+import { ProgressBar } from "primereact/progressbar";
+import { Knob } from "primereact/knob";
 
 export default function TargetTool() {
   const loadVulnerabilities = useVulnerabilityStore(
@@ -67,8 +69,10 @@ export default function TargetTool() {
   }, [loadConstants]);
 
   useEffect(() => {
-    loadTargets();
-  }, [loadTargets]);
+    if ((targets?.length ?? 0) === 0) {
+      loadTargets();
+    }
+  }, [loadTargets, targets?.length]);
 
   const [scores, setScores] = React.useState({});
 
@@ -136,27 +140,34 @@ export default function TargetTool() {
       </div>
 
       <div className="flex gap-3 p-2 w-full">
-        <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full md:w-6">
-          <div className="text-sm text-500">Calculated Chemistry Score</div>
+        <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
+          <div className="text-xl text-500">Calculated Chemistry Score</div>
           <div className="text-2xl font-bold text-primary">
-            {scores?.chemistryScore ?? "—"}
+            {/* {scores?.chemistryScore ?? "—"} */}
+            <Knob value={scores?.chemistryScore ?? 0} strokeWidth={5} readOnly />
+
+          </div>
+
+        </div>
+        <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
+          <div className="text-xl text-500">Calculated Genetic Score</div>
+          <div className="text-2xl font-bold text-primary">
+            {/* {scores?.geneticScore ?? "—"} */}
+            {/* <ProgressBar value={scores?.geneticScore ?? 0}></ProgressBar> */}
+            <Knob value={scores?.geneticScore ?? 0} strokeWidth={5} readOnly />
+
           </div>
         </div>
-        <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full md:w-6">
-          <div className="text-sm text-500">Calculated Genetic Score</div>
+        <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
+          <div className="text-xl text-500">Calculated Liability Score</div>
           <div className="text-2xl font-bold text-primary">
-            {scores?.geneticScore ?? "—"}
-          </div>
-        </div>
-        <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full md:w-6">
-          <div className="text-sm text-500">Calculated Liability Score</div>
-          <div className="text-2xl font-bold text-primary">
-            {scores?.liabilityScore ?? "—"}
+            {/* {scores?.liabilityScore ?? "33.45"} */}
+            <Knob value={scores?.liabilityScore ?? 0} strokeWidth={5} readOnly />
           </div>
         </div>
       </div>
 
-      <div className="flex border-1 surface-border w-full">
+      <div className="flex border-1 surface-border w-full ">
         <TargetQuestionnaire />
       </div>
     </div>

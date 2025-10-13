@@ -2,10 +2,15 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { useTargetsStore } from "@/app/stores/useTargetStore";
+import { ProgressSpinner } from "primereact/progressspinner";
+import Loading from "../ui/Loading";
 
 // Dynamically import Plot to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
+  loading: () => (
+      <Loading message="Plotting Graph."/>
+  ),
 });
 
 export default function TargetGraph({ scores, evaluatedTarget = "" }) {
@@ -18,7 +23,7 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
   } = useTargetsStore();
 
   if (loadingTargets) {
-    return <div>Loading targets...</div>;
+    return <div className="flex justify-content-center align-items-center">Loading targets...</div>;
   }
 
   console.log("Targets loaded:", targets);

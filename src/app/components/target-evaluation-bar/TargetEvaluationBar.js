@@ -1,10 +1,10 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { MultiSelect } from "primereact/multiselect";
 import { InputText } from "primereact/inputtext";
-
+import { Toast } from "primereact/toast";
 import "primeflex/primeflex.css";
+
 import { useUIStore } from "@/app/stores/useUIStore";
 import { useQuestionStore } from "@/app/stores/useQuestionStore";
 
@@ -17,17 +17,16 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
   } = useUIStore();
 
   const { loadQuestionnaireFromUrl, loadingQuestionnaire } = useQuestionStore();
+
+  const toast = useRef(null);               // <-- add toast ref
   const [loadingGenes, setLoadingGenes] = useState(true);
   const [genes, setGenes] = useState(null);
 
   useEffect(() => {
     setLoadingGenes(true);
-    fetch(
-      "https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/data/genes.json"
-    )
+    fetch("https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/data/genes.json")
       .then((r) => r.json())
       .then((data) => {
-        // Sort by Name (case-insensitive)
         const sorted = data.sort((a, b) =>
           a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
         );
@@ -37,34 +36,42 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
       .finally(() => setLoadingGenes(false));
   }, []);
 
-  // Capitalize first letter, leave rest as-is
-  const formatGeneName = (name) => {
-    if (!name || typeof name !== "string") return "";
-    return name.charAt(0).toUpperCase() + name.slice(1);
-  };
+  const formatGeneName = (name) =>
+    !name || typeof name !== "string" ? "" : name.charAt(0).toUpperCase() + name.slice(1);
 
   const onGeneChange = (e) => {
     const sel = e.value || [];
-    console.log(e.value);
     setSelectedGenes(sel);
-    let joined =
-      sel.length > 0
-        ? sel
-            .map((g) => formatGeneName(g?.Name ?? ""))
-            .filter(Boolean)
-            .join("-")
-        : "";
-
+    const joined = sel.length
+      ? sel.map((g) => formatGeneName(g?.Name ?? "")).filter(Boolean).join("-")
+      : "";
     setSelectedTargetName(joined);
+  };
+
+  const handleLoadTbdaTarget = async () => {
+    const url = `https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/tbda/${encodeURIComponent(
+      selectedTargetName
+    )}.json`;
+
+    const { success, message } = await loadQuestionnaireFromUrl(url);
+
+    toast.current?.show({
+      severity: success ? "success" : "error",
+      summary: success ? "Loaded" : "Failed. Please select a target from above.",
+      detail: message,
+      life: 3000,
+    });
   };
 
   return (
     <div className="flex justify-content-between align-items-center p-3 w-full surface-100">
+      <Toast ref={toast} position="top-right" /> {/* toast host */}
+
       <div className="flex">
         <MultiSelect
           value={selectedGenes}
           loading={loadingGenes}
-          onChange={(e) => onGeneChange(e)}
+          onChange={onGeneChange}
           options={genes}
           optionLabel="Name"
           placeholder="Select genes for target evaluation"
@@ -73,6 +80,7 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
           className="w-full md:w-20rem"
         />
       </div>
+
       <div className="flex align-items-center gap-2">
         <div className="flex">Target Name</div>
         <div className="flex">
@@ -83,33 +91,20 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
         </div>
       </div>
 
-      <div className="flex align-items-center"></div>
-      {/* Right Section (existing buttons) */}
       <div className="flex justify-content-end gap-1">
-        {/* <Button label="Save" icon="pi pi-save" className="p-button-success" />
-        <Button
-          label="Reset"
-          icon="pi pi-undo"
-          className="p-button-secondary"
-        /> */}
         <Button
           label="Evaluate"
           icon="pi pi-check"
-          onClick={() => onEvaluate()}
+          onClick={onEvaluate}
           disabled={selectedGenes.length === 0 || !selectedTargetName}
         />
         <Button
           label="Load TBDA Target"
           icon="pi pi-refresh"
-          onClick={() =>
-            loadQuestionnaireFromUrl(
-              `https://raw.githubusercontent.com/sidxz/parsnip-data/refs/heads/main/tbda/${selectedTargetName}.json`
-            )
-          }
+          onClick={handleLoadTbdaTarget}
           loading={loadingQuestionnaire}
           disabled={selectedGenes.length === 0 || !selectedTargetName}
         />
-
         <Button label="Upload PDF" icon="pi pi-upload" />
         <Button
           label="Download PDF"

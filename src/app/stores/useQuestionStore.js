@@ -29,7 +29,6 @@ export const useQuestionStore = create(
     pendingQuestionnaire: null, // { [identification]: "YES"/"ACTIVE"/... }
     loadingQuestionnaire: false,
 
-
     loadQuestions: async () => {
       set({ loadingQuestions: true, error: null });
       try {
@@ -104,6 +103,7 @@ export const useQuestionStore = create(
 
     // Load questionnaire mapping from a URL that returns a JSON object:
     // { "2A1": "YES", "2A4A": "ACTIVE", ... }
+    // in /app/stores/useQuestionStore.js
     loadQuestionnaireFromUrl: async (url) => {
       const { questions, loadQuestionnaire } = get();
 
@@ -123,7 +123,6 @@ export const useQuestionStore = create(
           );
         }
 
-        // If questions are already loaded, apply immediately; else stash in pending
         if (questions?.length) {
           loadQuestionnaire(json);
         } else {
@@ -131,13 +130,11 @@ export const useQuestionStore = create(
         }
 
         set({ loadingQuestionnaire: false });
+        return { success: true, message: "Questionnaire loaded successfully" };
       } catch (e) {
-        set({
-          error:
-            e?.message ||
-            "Failed to load questionnaire mapping from provided URL",
-          loadingQuestionnaire: false,
-        });
+        const message = e?.message || "Failed to load questionnaire";
+        set({ error: message, loadingQuestionnaire: false });
+        return { success: false, message };
       }
     },
 
