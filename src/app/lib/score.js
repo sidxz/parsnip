@@ -51,8 +51,8 @@ export function calculateScore(answers, accessionNumber) {
   console.log("Genetic Score Results =", geneticScore);
   // Final Score
   score = {
-    chemistryScore: Number(chemistryScore.chemistry_score.toFixed(2)),
-    geneticScore: Number(geneticScore.genetic_score.toFixed(2))
+    chemistryScore: Number(chemistryScore.primary_chemistry_score.toFixed(2)),
+    geneticScore: Number(geneticScore.primary_genetic_score.toFixed(2))
   };
 
   console.log("Final Score =", score);

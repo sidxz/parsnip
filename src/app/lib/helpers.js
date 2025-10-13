@@ -53,3 +53,16 @@ export function generateWeightedAnswerMatrix(answerWeightMap, answers) {
 
   return qaw;
 }
+
+
+
+export const safeGet = (getFn, key, label) => {
+  const value = getFn(key);
+  if (value === undefined) {
+    console.error(
+      `Missing required constant: ${label} (${key})`
+    );
+    throw new Error(`Missing required constant: ${label}`);
+  }
+  return value;
+};

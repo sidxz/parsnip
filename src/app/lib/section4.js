@@ -1,6 +1,7 @@
 "use client";
 import { useVulnerabilityStore } from "@/app/stores/useVulnerabilityStore";
 import { useConstantsStore } from "@/app/stores/useConstantStore";
+import { safeGet } from "./helpers";
 
 /* =========================
    UTILITIES
@@ -19,16 +20,6 @@ const meanRounded1 = (arr) => {
   return Math.round(m * 10) / 10;
 };
 
-const safeGet = (getFn, key, label) => {
-  const value = getFn(key);
-  if (value === undefined) {
-    console.error(
-      `[computeSection4] Missing required constant: ${label} (${key})`
-    );
-    throw new Error(`Missing required constant: ${label}`);
-  }
-  return value;
-};
 
 /* =========================
    MAIN
