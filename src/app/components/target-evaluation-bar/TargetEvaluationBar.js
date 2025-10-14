@@ -93,13 +93,13 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
 
       <div className="flex justify-content-end gap-1">
         <Button
-          label="Evaluate"
+          label="Evaluate Proposed Target"
           icon="pi pi-check"
           onClick={onEvaluate}
           disabled={selectedGenes.length === 0 || !selectedTargetName}
         />
         <Button
-          label="Load TBDA Target"
+          label="Load Answers for TBDA Target"
           icon="pi pi-refresh"
           onClick={handleLoadTbdaTarget}
           loading={loadingQuestionnaire}

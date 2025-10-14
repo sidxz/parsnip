@@ -11,7 +11,7 @@ const TargetQuestion = ({ idx, question, value, onChange }) => {
   return (
     <div className="flex border-1 border-50 border-round p-3 w-full">
       <div className="flex flex-column gap-2">
-        <div className="font-bold">{idx+1}</div>
+        <div className="font-bold">{idx+1}| {question.identification}</div>
         <div className="font-bold">{question.questionBody}</div>
         <div className="text-sm text-700">{question.toolTip}</div>
 
