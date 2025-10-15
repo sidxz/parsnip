@@ -95,7 +95,12 @@ export default function TargetTool() {
     });
   };
 
-  if (loadingTargets ||loadingQuestions || constantsLoading || vulnerabilityLoading)
+  if (
+    loadingTargets ||
+    loadingQuestions ||
+    constantsLoading ||
+    vulnerabilityLoading
+  )
     return <Loading />;
 
   return (
@@ -126,7 +131,7 @@ export default function TargetTool() {
 
       <div className="flex border-0 w-full p-1 surface-border gap-2">
         <div className="flex border-1 border-50 w-full">
-          <TargetGraph scores={scores} />
+          <TargetGraph scores={scores} evaluatedTarget={selectedTargetName} />
         </div>
         <div className="flex border-1 border-50 w-full">
           <TargetTable />
@@ -144,10 +149,12 @@ export default function TargetTool() {
           <div className="text-xl text-500">Calculated Chemistry Score</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.chemistryScore ?? "—"} */}
-            <Knob value={scores?.chemistryScore ?? 0} strokeWidth={5} readOnly />
-
+            <Knob
+              value={scores?.chemistryScore ?? 0}
+              strokeWidth={5}
+              readOnly
+            />
           </div>
-
         </div>
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
           <div className="text-xl text-500">Calculated Genetic Score</div>
@@ -155,14 +162,17 @@ export default function TargetTool() {
             {/* {scores?.geneticScore ?? "—"} */}
             {/* <ProgressBar value={scores?.geneticScore ?? 0}></ProgressBar> */}
             <Knob value={scores?.geneticScore ?? 0} strokeWidth={5} readOnly />
-
           </div>
         </div>
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Calculated Liability Score</div>
+          <div className="text-xl text-500">Calculated Likelihood Score</div>
           <div className="text-2xl font-bold text-primary">
-            {/* {scores?.liabilityScore ?? "33.45"} */}
-            <Knob value={scores?.liabilityScore ?? 0} strokeWidth={5} readOnly />
+            {/* {scores?.likelihoodScore ?? "33.45"} */}
+            <Knob
+              value={scores?.likelihoodScore ?? 0}
+              strokeWidth={5}
+              readOnly
+            />
           </div>
         </div>
       </div>

@@ -105,12 +105,12 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
           loading={loadingQuestionnaire}
           disabled={selectedGenes.length === 0 || !selectedTargetName}
         />
-        <Button label="Upload PDF" icon="pi pi-upload" />
+        {/* <Button label="Upload PDF" icon="pi pi-upload" />
         <Button
           label="Download PDF"
           icon="pi pi-download"
           disabled={selectedGenes.length === 0 || !selectedTargetName}
-        />
+        /> */}
       </div>
     </div>
   );

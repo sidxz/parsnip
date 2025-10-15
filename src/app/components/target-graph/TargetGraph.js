@@ -76,7 +76,7 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
   const trace2 = {
     x: scores?.chemistryScore ? [scores.chemistryScore] : [],
     y: scores?.geneticScore ? [scores.geneticScore] : [],
-    z: scores?.geneticScore ? [0] : [],
+    z: scores?.likelihoodScore ? [scores.likelihoodScore] : [],
     mode: "markers", // Options: "markers", "lines", "lines+markers"
     type: "scatter3d", // For 3D scatter plot
     marker: {

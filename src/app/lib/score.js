@@ -6,6 +6,7 @@ import { computeSection4 } from "./section4";
 import { computeSection5 } from "./section5";
 import { computeChemistryScore } from "./chemistryScore";
 import { computeGeneticScore } from "./geneticScore";
+import { computeSection6 } from "./section6";
 
 export function calculateScore(answers, accessionNumber) {
   const answerWeightMap = useQuestionStore.getState().answerWeightMap;
@@ -49,10 +50,16 @@ export function calculateScore(answers, accessionNumber) {
     chemistryScore.liability_multiplier
   );
   console.log("Genetic Score Results =", geneticScore);
+
+  // Section 6
+  const section6res = computeSection6(answers, weightedMatrix);
+  const likelihoodScore = section6res.Sec6_Sum;
+
   // Final Score
   score = {
-    chemistryScore: Number(chemistryScore.primary_chemistry_score.toFixed(2)),
-    geneticScore: Number(geneticScore.primary_genetic_score.toFixed(2))
+    chemistryScore: Number(chemistryScore.chemistry_score.toFixed(0)),
+    geneticScore: Number(geneticScore.genetic_score.toFixed(0)),
+    likelihoodScore: Number(likelihoodScore.toFixed(0)),
   };
 
   console.log("Final Score =", score);
