@@ -51,8 +51,6 @@ export function computeSection6(answers, qaw) {
     b1dN = isNo("6B1D");
   const b1aY = isYes("6B1A"),
     b1aN = isNo("6B1A");
-  const b2aY = isYes("6B2A"),
-    b2aN = isNo("6B2A"); // "6baba" interpreted as 6B2A
   const b3dY = isYes("6B3D"),
     b3dN = isNo("6B3D");
   const b3aY = isYes("6B3A");
@@ -63,19 +61,23 @@ export function computeSection6(answers, qaw) {
     (b1dN && b1aY ? val("6B1B1") : 0) +
     (isYes("6B1B1") ? val("6B1B2") : 0) +
     (b1aY ? val("6B2A") : 0) +
-    (b1aY && b2aN ? val("6B2B") : 0) +
+    // CHANGE: 6B2B is scored if 6B1A=Y AND 6B1B1≠Y (doc table)
+    (b1aY && !isYes("6B1B1") ? val("6B2B") : 0) +
     (b1aY ? val("6B2C") : 0) +
     val("6B3D") +
-    (b3dN ? val("6B3A") : 0) +
+    // CHANGE: 6B3A is NOT scored if 6B1D=Y OR 6B1A=Y
+    (b3dN && !b1dY && !b1aY ? val("6B3A") : 0) +
     (b3dN && b3aY ? val("6B3B1") : 0) +
     (isYes("6B3B1") ? val("6B3B2") : 0) +
     (b3aY ? val("6B4A") : 0) +
-    (b1aY && b2aN ? val("6B4B") : 0) +
+    // CHANGE: 6B4B is NOT scored if 6B3B1=Y
+    (b3aY && !isYes("6B3B1") ? val("6B4B") : 0) +
     (b1aY ? val("6B4C") : 0) +
-    (b3aY ? val("6B3C1") : 0) +
-    (b1aY ? val("6B3C2") : 0) +
-    (b1dY ? val("6B5A") : 0) + // “(…=Y, H)” already encoded in qaw
-    (b1aN && b3dY ? val("6B5B") : 0); // idem
+    // CHANGE: 6B3C1/6B3C2 NOT scored if 6B1D=Y OR 6B1A=Y
+    (b3aY && !b1dY && !b1aY ? val("6B3C1") : 0) +
+    (b1aY && !b1dY ? val("6B3C2") : 0) + // same guard as table text indicates
+    (b1dY ? val("6B5A") : 0) +
+    (b1aN && b3dY ? val("6B5B") : 0);
 
   //-------6C--------
 
