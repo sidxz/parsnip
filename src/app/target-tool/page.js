@@ -142,7 +142,7 @@ export default function TargetTool() {
         <div className="flex border-1 border-50 w-full">
           <TargetGraph scores={scores} evaluatedTarget={selectedTargetName} />
         </div>
-        <div className="flex border-1 border-50 w-full">
+        <div className="flex border-1 p-1 border-50 w-full">
           <TargetTable />
         </div>
       </div>
