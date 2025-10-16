@@ -16,6 +16,7 @@ import { useUIStore } from "../stores/useUIStore";
 import { useTargetsStore } from "../stores/useTargetStore";
 import { ProgressBar } from "primereact/progressbar";
 import { Knob } from "primereact/knob";
+import Link from "next/link";
 
 export default function TargetTool() {
   const loadVulnerabilities = useVulnerabilityStore(
@@ -114,18 +115,26 @@ export default function TargetTool() {
             label="Publication"
             icon="pi pi-external-link"
           />
-          <Button
-            className="p-0 m-0 text-xs pr-3"
-            link
-            label="TB Drug Accelerator"
-            icon="pi pi-wave-pulse"
-          />
-          <Button
-            className="p-0 m-0 text-xs pr-3"
-            link
-            label="GitHub"
-            icon="pi pi-github"
-          />
+          <div className="flex">
+            <Link href="https://www.tbdrugaccelerator.org/">
+              <Button
+                className="p-0 m-0 text-xs pr-3"
+                link
+                label="TB Drug Accelerator"
+                icon="pi pi-wave-pulse"
+              />
+            </Link>
+          </div>
+          <div className="flex">
+            <Link href="https://github.com/sidxz/parsnip">
+              <Button
+                className="p-0 m-0 text-xs pr-3"
+                link
+                label="GitHub"
+                icon="pi pi-github"
+              />
+            </Link>
+          </div>
         </div>
       </div>
 
