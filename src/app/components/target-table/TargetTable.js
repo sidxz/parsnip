@@ -86,7 +86,7 @@ const TargetTable = () => {
         filterDisplay="row"
         filters={filters}
         onFilter={(e) => setFilters(e.filters)}
-        showGridlines
+        
       >
         <Column
           field="targetName"
