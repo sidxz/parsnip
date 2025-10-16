@@ -17,10 +17,18 @@ const TargetTable = () => {
   return (
     <div className="card w-full">
       <DataTable value={targets} loading={loadingTargets}>
-        <Column field="targetName" header="Target Name" />
-        <Column field="chemicalInhibitionScore" header="Chemical Inhibition" />
-        <Column field="geneticInhibitionScore" header="Genetic Inhibition" />
-        <Column field="likelihoodScore" header="Likelihood" />
+        <Column field="targetName" header="Target Name" sortable />
+        <Column
+          field="chemicalInhibitionScore"
+          header="Chemical Inhibition"
+          sortable
+        />
+        <Column
+          field="geneticInhibitionScore"
+          header="Genetic Inhibition"
+          sortable
+        />
+        <Column field="likelihoodScore" header="Likelihood" sortable />
       </DataTable>
     </div>
   );
