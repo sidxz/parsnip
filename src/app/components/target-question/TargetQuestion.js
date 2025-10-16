@@ -11,7 +11,9 @@ const TargetQuestion = ({ idx, question, value, onChange }) => {
   return (
     <div className="flex border-1 border-50 border-round p-3 w-full">
       <div className="flex flex-column gap-2">
-        <div className="font-bold">{idx+1}| {question.identification}</div>
+        <div className="font-bold">
+          {idx + 1}| {question.identification}
+        </div>
         <div className="font-bold">{question.questionBody}</div>
         <div className="text-sm text-700">{question.toolTip}</div>
 
@@ -21,9 +23,13 @@ const TargetQuestion = ({ idx, question, value, onChange }) => {
             return (
               <div
                 key={option.id}
-                className="border-1 border-50 flex-column surface-border border-round p-3 flex gap-2 w-30rem"
+                className={
+                  value === option.id
+                    ? "border-1 border-50 flex-column surface-border border-round p-3 flex gap-2 w-30rem bg-cyan-200"
+                    : "border-1 border-50 flex-column surface-border border-round p-3 flex gap-2 w-30rem"
+                }
               >
-                <div className="flex align-items-center gap-2">
+                <div className={"flex align-items-center gap-2"}>
                   <RadioButton
                     inputId={inputId}
                     name={ident}
@@ -31,7 +37,10 @@ const TargetQuestion = ({ idx, question, value, onChange }) => {
                     onChange={(e) => onChange(ident, e.value)}
                     checked={value === option.id}
                   />
-                  <label htmlFor={inputId} className="font-medium cursor-pointer">
+                  <label
+                    htmlFor={inputId}
+                    className="font-medium cursor-pointer"
+                  >
                     {option.answer}
                   </label>
                 </div>
