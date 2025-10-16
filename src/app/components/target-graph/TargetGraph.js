@@ -2,15 +2,12 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { useTargetsStore } from "@/app/stores/useTargetStore";
-import { ProgressSpinner } from "primereact/progressspinner";
 import Loading from "../ui/Loading";
 
 // Dynamically import Plot to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
-  loading: () => (
-      <Loading message="Plotting Graph."/>
-  ),
+  loading: () => <Loading message="Plotting Graph." />,
 });
 
 export default function TargetGraph({ scores, evaluatedTarget = "" }) {
@@ -23,10 +20,12 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
   } = useTargetsStore();
 
   if (loadingTargets) {
-    return <div className="flex justify-content-center align-items-center">Loading targets...</div>;
+    return (
+      <div className="flex justify-content-center align-items-center">
+        Loading targets...
+      </div>
+    );
   }
-
-  console.log("Targets loaded:", targets);
 
   // Keep only targets with all three numeric scores
   const valid = targets.filter(
@@ -46,19 +45,18 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
       : t.accessionNumber ?? "";
     return `${t.targetName || "Unknown"} (${acc})`;
   });
-  console.log("Hover texts:", hoverText);
 
   const trace1 = {
-    x: x,
-    y: y,
-    z: z,
+    x,
+    y,
+    z,
     mode: "markers",
     type: "scatter3d",
     marker: {
-      size: 6,
+      size: 10, // Increased marker size
       opacity: 0.8,
-      color: "rgba(1, 120, 168, 1)", // Marker color (can use hex, rgb, rgba)
-      symbol: "circle", // Options: "circle", "square", "diamond", "cross", "x", "triangle-up", etc.
+      color: "rgba(1, 120, 168, 1)",
+      symbol: "circle",
       line: {
         color: "rgba(217,217,217,0.14)",
         width: 0.5,
@@ -77,21 +75,20 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
     x: scores?.chemistryScore ? [scores.chemistryScore] : [],
     y: scores?.geneticScore ? [scores.geneticScore] : [],
     z: scores?.likelihoodScore ? [scores.likelihoodScore] : [],
-    mode: "markers", // Options: "markers", "lines", "lines+markers"
-    type: "scatter3d", // For 3D scatter plot
+    mode: "markers",
+    type: "scatter3d",
     marker: {
-      size: 8, // Marker size
-      symbol: "diamond", // Options: "circle", "square", "diamond", "cross", "x", "triangle-up", etc.
-      color: "rgba(30, 224, 0, 1)", // Marker color (can use hex, rgb, rgba)
-      opacity: 0.8, // Marker opacity (0 to 1)
+      size: 14, // Increased size for highlighted target
+      symbol: "diamond",
+      color: "rgba(30, 224, 0, 1)",
+      opacity: 0.9,
       line: {
-        color: "rgb(204,204,204)", // Border color
-        width: 1, // Border width
+        color: "rgb(204,204,204)",
+        width: 1.5,
       },
     },
-    name: "Your Target", // Legend name
-    text: ["Custom label"], // Optional: hover text
-    visible: true, // Show/hide trace
+    name: "Your Target",
+    text: ["Custom label"],
     hovertemplate:
       "Evaluated Target: " +
       evaluatedTarget +
@@ -109,22 +106,13 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
     margin: { l: 10, r: 10, t: 0, b: 0 },
     scene: {
       xaxis: {
-        title: {
-          text: "Chemical Inhibition",
-          font: { size: 12, color: "#7f7f7f" },
-        },
+        title: { text: "Chemical Inhibition", font: { size: 12, color: "#7f7f7f" } },
       },
       yaxis: {
-        title: {
-          text: "Genetic Inhibition",
-          font: { size: 12, color: "#7f7f7f" },
-        },
+        title: { text: "Genetic Inhibition", font: { size: 12, color: "#7f7f7f" } },
       },
       zaxis: {
-        title: {
-          text: "Likelihood",
-          font: { size: 12, color: "#7f7f7f" },
-        },
+        title: { text: "Likelihood", font: { size: 12, color: "#7f7f7f" } },
       },
     },
   };
