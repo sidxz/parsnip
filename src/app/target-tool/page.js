@@ -17,6 +17,8 @@ import { useTargetsStore } from "../stores/useTargetStore";
 import { ProgressBar } from "primereact/progressbar";
 import { Knob } from "primereact/knob";
 import Link from "next/link";
+import { Panel } from 'primereact/panel';
+import { CalculationDetailsPanel } from "../components/score-debug/calculationDetailsPanel";
 
 export default function TargetTool() {
   const loadVulnerabilities = useVulnerabilityStore(
@@ -77,6 +79,22 @@ export default function TargetTool() {
 
   const [scores, setScores] = React.useState({});
 
+  // local state to control visibility of debug panel
+  const [showCalcDetails, setShowCalcDetails] = React.useState(false);
+
+  // secret key combo listener (Ctrl+Shift+D)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Adjust this condition to your preferred combo
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "d") {
+        setShowCalcDetails((prev) => !prev); // toggle on/off
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const onEvaluate = () => {
     const responses = saveQuestionnaire();
     console.log("Selected genes:", selectedGenes);
@@ -94,6 +112,23 @@ export default function TargetTool() {
     setScores({
       ...finalScores,
     });
+  };
+
+  // Download a JSON file of the current questionnaire answers
+  const downloadQuestionnaireAnswers = () => {
+    const answers = saveQuestionnaire();
+    const dataStr =
+      "data:text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(answers, null, 2));
+    const downloadAnchorNode = document.createElement("a");
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute(
+      "download",
+      `${selectedTargetName || "target"}.json`
+    );
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
   };
 
   if (
@@ -150,7 +185,10 @@ export default function TargetTool() {
         Target Evaluation
       </div>
       <div className="flex border-1 w-full surface-border">
-        <TargetEvaluationBar onEvaluate={onEvaluate} />
+        <TargetEvaluationBar
+          onEvaluate={onEvaluate}
+          downloadQuestionnaireAnswers={downloadQuestionnaireAnswers}
+        />
       </div>
 
       <div className="flex gap-3 p-2 w-full">
@@ -185,6 +223,11 @@ export default function TargetTool() {
           </div>
         </div>
       </div>
+      {showCalcDetails && (<div className="flex w-full mb-3">
+        <Panel className="w-full" header="Calculation Details" toggleable collapsed>
+          <CalculationDetailsPanel data={scores} />
+        </Panel>
+      </div>) }
 
       <div className="flex border-1 surface-border w-full ">
         <TargetQuestionnaire />
