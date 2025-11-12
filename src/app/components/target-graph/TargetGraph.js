@@ -46,14 +46,26 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
     return `${t.targetName || "Unknown"} (${acc})`;
   });
 
+
+  const labels = valid.map((t) => {
+    const acc = Array.isArray(t.accessionNumber)
+      ? t.accessionNumber.join(", ")
+      : t.accessionNumber ?? "";
+    //return `${t.targetName || "Unknown"}${acc ? ` (${acc})` : ""}`;
+    return `${t.targetName || "Unknown"}`;
+  });
+
   const trace1 = {
     x,
     y,
     z,
-    mode: "markers",
+    mode: "markers+text",
     type: "scatter3d",
+    text: labels, // <= shown on the chart
+    textposition: "bottom center", // options: 'top left', 'middle center', etc.
+    textfont: { size: 10 },
     marker: {
-      size: 10, // Increased marker size
+      size: 7, // Increased marker size
       opacity: 0.8,
       color: "rgba(1, 120, 168, 1)",
       symbol: "circle",
@@ -63,7 +75,7 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
       },
     },
     name: "TBDA Targets",
-    text: hoverText,
+    //text: hoverText,
     hovertemplate:
       "Target: %{text}<br>" +
       "Chemical Inhibition: %{x}<br>" +
@@ -75,8 +87,11 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
     x: scores?.chemistryScore ? [scores.chemistryScore] : [],
     y: scores?.geneticScore ? [scores.geneticScore] : [],
     z: scores?.likelihoodScore ? [scores.likelihoodScore] : [],
-    mode: "markers",
+    mode: "markers+text",
     type: "scatter3d",
+    text: labels, // <= shown on the chart
+    textposition: "right center", // options: 'top left', 'middle center', etc.
+    textfont: { size: 10 },
     marker: {
       size: 14, // Increased size for highlighted target
       symbol: "diamond",
@@ -88,7 +103,6 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
       },
     },
     name: "Your Target",
-    text: ["Custom label"],
     hovertemplate:
       "Evaluated Target: " +
       evaluatedTarget +
@@ -101,24 +115,38 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
   const data = [trace1, trace2];
 
   const layout = {
-    height: 700,
-    width: 800,
+    height: 800,
+    width: 700,
     margin: { l: 10, r: 10, t: 0, b: 0 },
     scene: {
       xaxis: {
-        title: { text: "Chemical Inhibition", font: { size: 12, color: "#7f7f7f" } },
+        title: {
+          text: "Chemical Inhibition",
+          font: { size: 12, color: "#7f7f7f" },
+        },
+        range: [0, 100],
       },
       yaxis: {
-        title: { text: "Genetic Inhibition", font: { size: 12, color: "#7f7f7f" } },
+        title: {
+          text: "Genetic Inhibition",
+          font: { size: 12, color: "#7f7f7f" },
+        },
+        range: [0, 100],
       },
       zaxis: {
         title: { text: "Likelihood", font: { size: 12, color: "#7f7f7f" } },
+        range: [0, 100],
+      },
+      camera: {
+        eye: { x: 1.5, y: 1.5, z: 1.5 }, // move the camera farther out
+        center: { x: 0, y: 0, z: 0 },
       },
     },
   };
 
   return (
     <Plot
+      className="flex"
       data={data}
       layout={layout}
       config={{
