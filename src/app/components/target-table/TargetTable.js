@@ -128,7 +128,7 @@ const TargetTable = () => {
         />
         <Column
           field="likelihoodScore"
-          header="Likelihood"
+          header="Feasibility"
           sortable
           filter
           filterMatchMode="custom"

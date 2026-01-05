@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 import { useEffect } from "react";
 import { useVulnerabilityStore } from "@/app/stores/useVulnerabilityStore";
 import { useQuestionStore } from "@/app/stores/useQuestionStore";
-import TargetGraph from "../components/target-graph/TargetGraph";
+import TargetGraph3D from "../components/target-graph/TargetGraph3D";
 import TargetTable from "../components/target-table/TargetTable";
 import TargetEvaluationBar from "../components/target-evaluation-bar/TargetEvaluationBar";
 import TargetQuestionnaire from "../components/target-questionnaire/TargetQuestionnaire";
@@ -17,8 +17,12 @@ import { useTargetsStore } from "../stores/useTargetStore";
 import { ProgressBar } from "primereact/progressbar";
 import { Knob } from "primereact/knob";
 import Link from "next/link";
-import { Panel } from 'primereact/panel';
+import { Panel } from "primereact/panel";
 import { CalculationDetailsPanel } from "../components/score-debug/calculationDetailsPanel";
+import { TabPanel, TabView } from "primereact/tabview";
+import TargetGraph2DImpactVsFeasibility from "../components/target-graph/TargetGraph2DImpactVsFeasibility";
+import TargetGraph2DGeneticVsFeasibility from "../components/target-graph/TargetGraph2DGeneticVsFeasibility";
+import TargetGraph2DChemicalVsFeasibility from "../components/target-graph/TargetGraph2DChemicalVsFeasibility";
 
 export default function TargetTool() {
   const loadVulnerabilities = useVulnerabilityStore(
@@ -174,10 +178,35 @@ export default function TargetTool() {
       </div>
 
       <div className="flex border-0 w-full p-1 surface-border gap-2">
-        <div className="flex border-1 border-50 w-full">
-          <TargetGraph scores={scores} evaluatedTarget={selectedTargetName} />
+        <div className="flex border-1 border-50 w-6">
+          <TabView scrollable className="w-full">
+            <TabPanel header="Impact vs Feasibility vs Feasibility ">
+              <TargetGraph3D
+                scores={scores}
+                evaluatedTarget={selectedTargetName}
+              />
+            </TabPanel>
+            <TabPanel header="Impact vs Feasibility">
+              <TargetGraph2DImpactVsFeasibility
+                scores={scores}
+                evaluatedTarget={selectedTargetName}
+              />
+            </TabPanel>
+            <TabPanel header="Genetic Impact vs Feasibility">
+              <TargetGraph2DGeneticVsFeasibility
+                scores={scores}
+                evaluatedTarget={selectedTargetName}
+              />
+            </TabPanel>
+            <TabPanel header="Chemical Impact vs Feasibility">
+              <TargetGraph2DChemicalVsFeasibility
+                scores={scores}
+                evaluatedTarget={selectedTargetName}
+              />
+            </TabPanel>
+          </TabView>
         </div>
-        <div className="flex border-1 p-1 border-50 w-full">
+        <div className="flex border-1 p-1 border-50 w-6">
           <TargetTable />
         </div>
       </div>
@@ -193,7 +222,7 @@ export default function TargetTool() {
 
       <div className="flex gap-3 p-2 w-full">
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Calculated Chemistry Score</div>
+          <div className="text-xl text-500">Chemical Validation</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.chemistryScore ?? "—"} */}
             <Knob
@@ -204,15 +233,16 @@ export default function TargetTool() {
           </div>
         </div>
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Calculated Genetic Score</div>
+          <div className="text-xl text-500">Genetic Validation</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.geneticScore ?? "—"} */}
             {/* <ProgressBar value={scores?.geneticScore ?? 0}></ProgressBar> */}
             <Knob value={scores?.geneticScore ?? 0} strokeWidth={5} readOnly />
           </div>
         </div>
+
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Calculated Likelihood Score</div>
+          <div className="text-xl text-500">Feasibility</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.likelihoodScore ?? "33.45"} */}
             <Knob
@@ -222,12 +252,31 @@ export default function TargetTool() {
             />
           </div>
         </div>
+        <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
+          <div className="text-xl text-500">Total Validation</div>
+          <div className="text-2xl font-bold text-primary">
+            {/* {scores?.geneticScore ?? "—"} */}
+            {/* <ProgressBar value={scores?.geneticScore ?? 0}></ProgressBar> */}
+            <Knob
+              value={scores?.totalInhibitionScore ?? 0}
+              strokeWidth={5}
+              readOnly
+            />
+          </div>
+        </div>
       </div>
-      {showCalcDetails && (<div className="flex w-full mb-3">
-        <Panel className="w-full" header="Calculation Details" toggleable collapsed>
-          <CalculationDetailsPanel data={scores} />
-        </Panel>
-      </div>) }
+      {showCalcDetails && (
+        <div className="flex w-full mb-3">
+          <Panel
+            className="w-full"
+            header="Calculation Details"
+            toggleable
+            collapsed
+          >
+            <CalculationDetailsPanel data={scores} />
+          </Panel>
+        </div>
+      )}
 
       <div className="flex border-1 surface-border w-full ">
         <TargetQuestionnaire />

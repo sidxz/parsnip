@@ -7,6 +7,7 @@ import { computeSection5 } from "./section5";
 import { computeChemistryScore } from "./chemistryScore";
 import { computeGeneticScore } from "./geneticScore";
 import { computeSection6 } from "./section6";
+import { totalInhibition } from './totalInhibition';
 
 export function calculateScore(answers, accessionNumber) {
   const answerWeightMap = useQuestionStore.getState().answerWeightMap;
@@ -56,11 +57,21 @@ export function calculateScore(answers, accessionNumber) {
   const section6res = computeSection6(answers, weightedMatrix);
   const likelihoodScore = section6res.Sec6_Sum;
 
+  // totalInhibition
+  const totalInhibitionScore = totalInhibition(
+    answers,
+    weightedMatrix,
+    chemistryScore,
+    geneticScore
+  );
+  console.log("Total Inhibition Score Results =", totalInhibitionScore);
+
   // Final Score
   score = {
     chemistryScore: Number(chemistryScore.chemistry_score.toFixed(0)),
     geneticScore: Number(geneticScore.genetic_score.toFixed(0)),
     likelihoodScore: Number(likelihoodScore.toFixed(0)),
+    totalInhibitionScore: Number(totalInhibitionScore.total_inhibition_score.toFixed(0)),
     sectionWise: {
       section2: section2res,
       section3: section3res,

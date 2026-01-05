@@ -45,7 +45,7 @@ export function CalculationDetailsPanel({ data }) {
             <div className="col-12 md:col-4">
               <div className="surface-100 border-round p-3 flex flex-column gap-2">
                 <span className="text-xs text-color-secondary font-medium">
-                  Likelihood Score
+                  Feasibility Score
                 </span>
                 <span className="text-2xl font-semibold text-primary">
                   {likelihoodScore}

@@ -10,7 +10,7 @@ const Plot = dynamic(() => import("react-plotly.js"), {
   loading: () => <Loading message="Plotting Graph." />,
 });
 
-export default function TargetGraph({ scores, evaluatedTarget = "" }) {
+export default function TargetGraph3D({ scores, evaluatedTarget = "" }) {
   const {
     targets,
     loadingTargets,
@@ -78,9 +78,9 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
     //text: hoverText,
     hovertemplate:
       "Target: %{text}<br>" +
-      "Chemical Inhibition: %{x}<br>" +
-      "Genetic Inhibition: %{y}<br>" +
-      "Likelihood: %{z}",
+      "Chemical Validation: %{x}<br>" +
+      "Genetic Validation: %{y}<br>" +
+      "Feasibility: %{z}",
   };
 
   const trace2 = {
@@ -107,34 +107,34 @@ export default function TargetGraph({ scores, evaluatedTarget = "" }) {
       "Evaluated Target: " +
       evaluatedTarget +
       "<br>" +
-      "Chemical Inhibition: %{x}<br>" +
-      "Genetic Inhibition: %{y}<br>" +
-      "Likelihood: %{z}",
+      "Chemical Validation: %{x}<br>" +
+      "Genetic Validation: %{y}<br>" +
+      "Feasibility: %{z}",
   };
 
   const data = [trace1, trace2];
 
   const layout = {
-    height: 800,
-    width: 700,
+    height: 650,
+    width: 650,
     margin: { l: 10, r: 10, t: 0, b: 0 },
     scene: {
       xaxis: {
         title: {
-          text: "Chemical Inhibition",
+          text: "Chemical Validation",
           font: { size: 12, color: "#7f7f7f" },
         },
         range: [0, 100],
       },
       yaxis: {
         title: {
-          text: "Genetic Inhibition",
+          text: "Genetic Validation",
           font: { size: 12, color: "#7f7f7f" },
         },
         range: [0, 100],
       },
       zaxis: {
-        title: { text: "Likelihood", font: { size: 12, color: "#7f7f7f" } },
+        title: { text: "Feasibility", font: { size: 12, color: "#7f7f7f" } },
         range: [0, 100],
       },
       camera: {
