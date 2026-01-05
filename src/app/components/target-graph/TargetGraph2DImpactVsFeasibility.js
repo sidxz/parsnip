@@ -16,26 +16,14 @@ const Plot = dynamic(() => import("react-plotly.js"), {
  * Props:
  * - scores: { chemistryScore?: number, geneticScore?: number, likelihoodScore?: number }
  * - evaluatedTarget: string
- * - weights (optional): { wChem?: number, wGen?: number }
  */
 export default function TargetGraph2DImpactVsFeasibility({
   scores,
   evaluatedTarget = "",
-  weights = { wChem: 0.5, wGen: 0.5 },
 }) {
   const { targets, loadingTargets } = useTargetsStore();
 
-  const { wChem, wGen } = weights;
 
-  // Guard: keep sane defaults if someone passes weird weights
-  const safeWeights = useMemo(() => {
-    const wc = Number.isFinite(wChem) ? wChem : 0.5;
-    const wg = Number.isFinite(wGen) ? wGen : 0.5;
-    const sum = wc + wg;
-    // Normalize to sum=1 to keep TI on 0-100 scale assuming inputs are 0-100
-    if (!Number.isFinite(sum) || sum <= 0) return { wc: 0.5, wg: 0.5 };
-    return { wc: wc / sum, wg: wg / sum };
-  }, [wChem, wGen]);
 
   if (loadingTargets) {
     return (
@@ -50,15 +38,18 @@ export default function TargetGraph2DImpactVsFeasibility({
     (t) =>
       Number.isFinite(t?.chemicalInhibitionScore) &&
       Number.isFinite(t?.geneticInhibitionScore) &&
-      Number.isFinite(t?.likelihoodScore)
+      Number.isFinite(t?.likelihoodScore) &&
+      Number.isFinite(t?.totalInhibitionScore)
   );
 
   // Composite Impact (TI) for each target
-  const x = valid.map(
-    (t) =>
-      safeWeights.wc * t.chemicalInhibitionScore +
-      safeWeights.wg * t.geneticInhibitionScore
-  );
+  // const x = valid.map(
+  //   (t) =>
+  //     safeWeights.wc * t.chemicalInhibitionScore +
+  //     safeWeights.wg * t.geneticInhibitionScore
+  // );
+
+  const x = valid.map((t) => t.totalInhibitionScore); // GI
 
   // Feasibility (display label preferred)
   const y = valid.map((t) => t.likelihoodScore);
@@ -84,21 +75,13 @@ export default function TargetGraph2DImpactVsFeasibility({
     hovertemplate:
       "Target: %{text}<br>" +
       "Composite Impact: %{x:.1f}<br>" +
-      "Feasibility: %{y:.1f}<br>" +
-      `<br><i>TI = ${safeWeights.wc.toFixed(2)}·CI + ${safeWeights.wg.toFixed(
-        2
-      )}·GI</i>` +
-      "<extra></extra>",
+      "Feasibility: %{y:.1f}<br>"
   };
 
-  // Highlighted evaluated target point, if provided
-  const tiYourTarget =
-    Number.isFinite(scores?.chemistryScore) && Number.isFinite(scores?.geneticScore)
-      ? safeWeights.wc * scores.chemistryScore + safeWeights.wg * scores.geneticScore
-      : null;
-
   const trace2 = {
-    x: Number.isFinite(tiYourTarget) ? [tiYourTarget] : [],
+    x: Number.isFinite(scores?.totalInhibitionScore)
+      ? [scores.totalInhibitionScore]
+      : [],
     y: Number.isFinite(scores?.likelihoodScore) ? [scores.likelihoodScore] : [],
     mode: "markers+text",
     type: "scatter",
