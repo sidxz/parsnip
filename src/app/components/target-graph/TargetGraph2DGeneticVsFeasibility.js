@@ -3,6 +3,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { useTargetsStore } from "@/app/stores/useTargetStore";
 import Loading from "../ui/Loading";
+import { STRING_CONSTANTS } from "@/app/lib/strings";
 
 // Dynamically import Plot to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), {
@@ -64,8 +65,10 @@ export default function TargetGraph2DGeneticVsFeasibility({
     name: "TBDA Targets",
     hovertemplate:
       "Target: %{text}<br>" +
-      "Genetic Validation: %{x:.1f}<br>" +
-      "Feasibility: %{y:.1f}" +
+      STRING_CONSTANTS.GENETIC_IN_AXIS +
+      ": %{x:.1f}<br>" +
+      STRING_CONSTANTS.LIKELIHOOD_AXIS +
+      ": %{y:.1f}" +
       "<extra></extra>",
   };
 
@@ -92,8 +95,10 @@ export default function TargetGraph2DGeneticVsFeasibility({
       "Evaluated Target: " +
       (evaluatedTarget || "Your Target") +
       "<br>" +
-      "Genetic Validation: %{x:.1f}<br>" +
-      "Feasibility: %{y:.1f}" +
+      STRING_CONSTANTS.GENETIC_IN_AXIS +
+      ": %{x:.1f}<br>" +
+      STRING_CONSTANTS.LIKELIHOOD +
+      ": %{y:.1f}" +
       "<extra></extra>",
   };
 
@@ -103,14 +108,14 @@ export default function TargetGraph2DGeneticVsFeasibility({
     margin: { l: 55, r: 10, t: 20, b: 55 },
     xaxis: {
       title: {
-        text: "Genetic Validation",
+        text: STRING_CONSTANTS.GENETIC_IN_AXIS,
         font: { size: 12, color: "#7f7f7f" },
       },
       range: [0, 100],
       zeroline: false,
     },
     yaxis: {
-      title: { text: "Feasibility", font: { size: 12, color: "#7f7f7f" } },
+      title: { text: STRING_CONSTANTS.LIKELIHOOD_AXIS, font: { size: 12, color: "#7f7f7f" } },
       range: [0, 100],
       zeroline: false,
     },

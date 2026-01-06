@@ -23,6 +23,7 @@ import { TabPanel, TabView } from "primereact/tabview";
 import TargetGraph2DImpactVsFeasibility from "../components/target-graph/TargetGraph2DImpactVsFeasibility";
 import TargetGraph2DGeneticVsFeasibility from "../components/target-graph/TargetGraph2DGeneticVsFeasibility";
 import TargetGraph2DChemicalVsFeasibility from "../components/target-graph/TargetGraph2DChemicalVsFeasibility";
+import { STRING_CONSTANTS } from "../lib/strings";
 
 export default function TargetTool() {
   const loadVulnerabilities = useVulnerabilityStore(
@@ -180,25 +181,25 @@ export default function TargetTool() {
       <div className="flex border-0 w-full p-1 surface-border gap-2">
         <div className="flex border-1 border-50 w-6">
           <TabView scrollable className="w-full">
-            <TabPanel header="Impact vs Feasibility vs Feasibility ">
+            <TabPanel header="All Dimensions">
               <TargetGraph3D
                 scores={scores}
                 evaluatedTarget={selectedTargetName}
               />
             </TabPanel>
-            <TabPanel header="Impact vs Feasibility">
+            <TabPanel header={STRING_CONSTANTS.TOTAL_IN_AXIS + " vs " + STRING_CONSTANTS.LIKELIHOOD_AXIS}>
               <TargetGraph2DImpactVsFeasibility
                 scores={scores}
                 evaluatedTarget={selectedTargetName}
               />
             </TabPanel>
-            <TabPanel header="Genetic Impact vs Feasibility">
+            <TabPanel header={STRING_CONSTANTS.GENETIC_IN_AXIS + " vs " + STRING_CONSTANTS.LIKELIHOOD_AXIS}>
               <TargetGraph2DGeneticVsFeasibility
                 scores={scores}
                 evaluatedTarget={selectedTargetName}
               />
             </TabPanel>
-            <TabPanel header="Chemical Impact vs Feasibility">
+            <TabPanel header={STRING_CONSTANTS.CHEMICAL_IN_AXIS + " vs " + STRING_CONSTANTS.LIKELIHOOD_AXIS}>
               <TargetGraph2DChemicalVsFeasibility
                 scores={scores}
                 evaluatedTarget={selectedTargetName}
@@ -222,7 +223,7 @@ export default function TargetTool() {
 
       <div className="flex gap-3 p-2 w-full">
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Chemical Validation</div>
+          <div className="text-xl text-500">{STRING_CONSTANTS.CHEMICAL_IN}</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.chemistryScore ?? "—"} */}
             <Knob
@@ -233,7 +234,7 @@ export default function TargetTool() {
           </div>
         </div>
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Genetic Validation</div>
+          <div className="text-xl text-500">{STRING_CONSTANTS.GENETIC_IN}</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.geneticScore ?? "—"} */}
             {/* <ProgressBar value={scores?.geneticScore ?? 0}></ProgressBar> */}
@@ -242,7 +243,7 @@ export default function TargetTool() {
         </div>
 
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Feasibility</div>
+          <div className="text-xl text-500">{STRING_CONSTANTS.LIKELIHOOD}</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.likelihoodScore ?? "33.45"} */}
             <Knob
@@ -253,7 +254,7 @@ export default function TargetTool() {
           </div>
         </div>
         <div className="flex flex-column surface-card p-3 border-round shadow-1 w-full justify-content-center align-items-center md:w-6">
-          <div className="text-xl text-500">Total Validation</div>
+          <div className="text-xl text-500">{STRING_CONSTANTS.TOTAL_IN}</div>
           <div className="text-2xl font-bold text-primary">
             {/* {scores?.geneticScore ?? "—"} */}
             {/* <ProgressBar value={scores?.geneticScore ?? 0}></ProgressBar> */}

@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useTargetsStore } from "@/app/stores/useTargetStore";
 import Loading from "../ui/Loading";
 import { InputSwitch } from 'primereact/inputswitch';
+import { ST } from "next/dist/shared/lib/utils";
+import { STRING_CONSTANTS } from "@/app/lib/strings";
 
 // Dynamically import Plot to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), {
@@ -304,9 +306,9 @@ export default function TargetGraph3D({ scores, evaluatedTarget = "" }) {
     name: "TBDA Targets",
     hovertemplate:
       "Target: %{text}<br>" +
-      "Chemical Validation: %{x}<br>" +
-      "Genetic Validation: %{y}<br>" +
-      "Feasibility: %{z}<extra></extra>",
+      STRING_CONSTANTS.CHEMICAL_IN_AXIS + ": %{x}<br>" +
+      STRING_CONSTANTS.GENETIC_IN_AXIS + ": %{y}<br>" +
+      STRING_CONSTANTS.LIKELIHOOD_AXIS + ": %{z}<extra></extra>",
   };
 
   const trace2 = {
@@ -333,9 +335,9 @@ export default function TargetGraph3D({ scores, evaluatedTarget = "" }) {
       "Evaluated Target: " +
       (evaluatedTarget || "Your Target") +
       "<br>" +
-      "Chemical Validation: %{x}<br>" +
-      "Genetic Validation: %{y}<br>" +
-      "Feasibility: %{z}<extra></extra>",
+      STRING_CONSTANTS.CHEMICAL_IN_AXIS + ": %{x}<br>" +
+      STRING_CONSTANTS.GENETIC_IN_AXIS + ": %{y}<br>" +
+      STRING_CONSTANTS.LIKELIHOOD_AXIS + ": %{z}<extra></extra>",
   };
 
   // Ensure guides render behind points by ordering traces
@@ -349,7 +351,7 @@ export default function TargetGraph3D({ scores, evaluatedTarget = "" }) {
       aspectmode: "cube",
       xaxis: {
         title: {
-          text: "Chemical Validation",
+          text: STRING_CONSTANTS.CHEMICAL_IN_AXIS,
           font: { size: 12, color: "#7f7f7f" },
         },
         range: [MIN, MAX],
@@ -358,7 +360,7 @@ export default function TargetGraph3D({ scores, evaluatedTarget = "" }) {
       },
       yaxis: {
         title: {
-          text: "Genetic Validation",
+          text: STRING_CONSTANTS.GENETIC_IN_AXIS,
           font: { size: 12, color: "#7f7f7f" },
         },
         range: [MIN, MAX],
@@ -366,7 +368,7 @@ export default function TargetGraph3D({ scores, evaluatedTarget = "" }) {
         showspikes: false,
       },
       zaxis: {
-        title: { text: "Feasibility", font: { size: 12, color: "#7f7f7f" } },
+        title: { text: STRING_CONSTANTS.LIKELIHOOD_AXIS, font: { size: 12, color: "#7f7f7f" } },
         range: [MIN, MAX],
         backgroundcolor: "rgba(0,0,0,0)",
         showspikes: false,

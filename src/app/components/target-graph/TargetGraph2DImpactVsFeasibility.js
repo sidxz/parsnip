@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useTargetsStore } from "@/app/stores/useTargetStore";
 import Loading from "../ui/Loading";
+import { STRING_CONSTANTS } from "@/app/lib/strings";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
@@ -74,8 +75,11 @@ export default function TargetGraph2DImpactVsFeasibility({
     name: "TBDA Targets",
     hovertemplate:
       "Target: %{text}<br>" +
-      "Composite Impact: %{x:.1f}<br>" +
-      "Feasibility: %{y:.1f}<br>"
+      STRING_CONSTANTS.TOTAL_IN_AXIS +
+      ": %{x:.1f}<br>" +
+      STRING_CONSTANTS.LIKELIHOOD_AXIS +
+      ": %{y:.1f}" +
+      "<extra></extra>",
   };
 
   const trace2 = {
@@ -100,8 +104,10 @@ export default function TargetGraph2DImpactVsFeasibility({
       "Evaluated Target: " +
       (evaluatedTarget || "Your Target") +
       "<br>" +
-      "Composite Impact: %{x:.1f}<br>" +
-      "Feasibility: %{y:.1f}<br>" +
+      STRING_CONSTANTS.TOTAL_IN_AXIS +
+      ": %{x:.1f}<br>" +
+      STRING_CONSTANTS.LIKELIHOOD_AXIS +
+      ": %{y:.1f}<br>" +
       "<extra></extra>",
   };
 
@@ -110,12 +116,12 @@ export default function TargetGraph2DImpactVsFeasibility({
     width: 650,
     margin: { l: 50, r: 10, t: 20, b: 55 },
     xaxis: {
-      title: { text: "Impact", font: { size: 12, color: "#7f7f7f" } },
+      title: { text: STRING_CONSTANTS.TOTAL_IN_AXIS, font: { size: 12, color: "#7f7f7f" } },
       range: [0, 100],
       zeroline: false,
     },
     yaxis: {
-      title: { text: "Feasibility", font: { size: 12, color: "#7f7f7f" } },
+      title: { text: STRING_CONSTANTS.LIKELIHOOD_AXIS, font: { size: 12, color: "#7f7f7f" } },
       range: [0, 100],
       zeroline: false,
     },
