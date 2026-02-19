@@ -156,6 +156,12 @@ export default function TargetTool() {
             icon="pi pi-external-link"
           />
           <div className="flex">
+          <Link
+            href="https://saclab.github.io/daikon/docs/user-guide/Introduction">
+            <Button link label="DAIKON" icon="pi pi-external-link" />
+          </Link>
+        </div>
+          <div className="flex">
             <Link href="https://www.tbdrugaccelerator.org/">
               <Button
                 className="p-0 m-0 text-xs pr-3"
