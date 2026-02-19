@@ -34,6 +34,12 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex">
+          <Link
+            href="https://saclab.github.io/daikon/docs/user-guide/Introduction">
+            <Button link label="DAIKON" icon="pi pi-external-link" />
+          </Link>
+        </div>
+        <div className="flex">
           <Link href="https://www.tbdrugaccelerator.org/">
             <Button link label="TB Drug Accelerator" icon="pi pi-wave-pulse" />
           </Link>
