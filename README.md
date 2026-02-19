@@ -10,6 +10,8 @@ Designed to support the early stages of anti-TB research, PARSNIP is an open-sou
 PARSNIP serves as the public-facing companion to the Target Prioritization module in **DAIKON (Data Acquisition, Integration, and Knowledge Capture)**, an open-source framework developed to manage the early drug discovery pipeline, from target identification through portfolio management. DAIKON is currently implemented in the TB Drug Accelerator (TBDA) program, a partnership of pharmaceutical companies, academic institutions, and research groups supported by the Gates Foundation.
 Within DAIKON, the target prioritization module functions as an abstract layer that accepts quantitative or qualitative scoring inputs and promotes high-priority proteins from the gene pool into the active target pipeline. PARSNIP implements and exposes this module publicly, enabling the broader research community to apply the same evidence-based prioritization logic used internally by TBDA collaborators, without requiring access to the full DAIKON platform.
 
+./Tabs_target.gif
+
 For more on the DAIKON framework, see publication (https://pubs.acs.org/doi/10.1021/acsptsci.3c00034) Rath S, Panda S, Sacchettini JC, Berthel SJ. DAIKON: A Data Acquisition, Integration, and Knowledge Capture Web Application for Target-Based Drug Discovery. ACS Pharmacol Transl Sci. 2023 Jun 22 PMID: 37470023; PMCID: PMC10353056
 
 A full user manual for DAIKON, including detailed documentation on the Targets module, is available at: [https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip](https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip)
