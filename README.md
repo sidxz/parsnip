@@ -4,7 +4,7 @@ To view the latest release, please visit
 **https://parsnip-56158.web.app**
 
 ## Protein Assessment and Ranking System for Novel Input
-Designed to support the early stages of anti-TB research, PARSNIP is an open-source tool that ranks potential drug targets using a multi-dimensional scoring system. It evaluates proteins based on their biological importance, safety profile, and "druggability," providing a clear, visual way to compare different targets. As a public companion to the internal DAIKON system, it empowers the global research community to make evidence-based decisions and refine target priorities in real-time, offering a template that can be used for various bacterial threats.
+Designed to support the early stages of anti-TB research, PARSNIP is an open-source tool that ranks potential drug targets using a multi-dimensional scoring system. It evaluates proteins based on their biological importance, safety profile, and "druggability," providing a clear, visual way to compare different targets. Built to complement the internal DAIKON system, it empowers the global research community to make evidence-based decisions and refine target priorities in real-time, offering a template that can be used for various bacterial threats.
 
 ## Part of the DAIKON Ecosystem
 PARSNIP serves as the public-facing companion to DAIKON (Data Acquisition, Integration, and Knowledge Capture), an open-source framework developed to manage the early drug discovery pipeline, from target identification through portfolio management. DAIKON is currently implemented in the TB Drug Accelerator (TBDA) program, a partnership of pharmaceutical companies, academic institutions, and research groups supported by the Gates Foundation.
