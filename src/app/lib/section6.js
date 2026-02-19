@@ -1,3 +1,5 @@
+import { useQuestionStore } from "../stores/useQuestionStore";
+
 /**
  * Section 6A
  * Excel spec:
@@ -14,6 +16,7 @@
  * - Cap is not enforced here (your section total target is 15; apply outside if desired).
  */
 export function computeSection6(answers, qaw) {
+  const answerWeightMap = useQuestionStore.getState().answerWeightMap;
   const val = (k) => Number(qaw?.[k] ?? 0);
   const norm = (x) =>
     String(x ?? "")
@@ -55,6 +58,9 @@ export function computeSection6(answers, qaw) {
     b3dN = isNo("6B3D");
   const b3aY = isYes("6B3A");
 
+  const autofill_6B5A_H = answerWeightMap["6B5A"].find(a => a.answer === "HIGH")?.weight;
+  const autofill_6B5B_H = answerWeightMap["6B5B"].find(a => a.answer === "HIGH")?.weight;
+
   const I_6B =
     val("6B1D") +
     (b1dN ? val("6B1A") : 0) +
@@ -76,8 +82,8 @@ export function computeSection6(answers, qaw) {
     // CHANGE: 6B3C1/6B3C2 NOT scored if 6B1D=Y OR 6B1A=Y
     (b3aY && !b1dY && !b1aY ? val("6B3C1") : 0) +
     (b1aY && !b1dY ? val("6B3C2") : 0) + // same guard as table text indicates
-    (b1dY ? val("6B5A") : 0) +
-    (b1aN && b3dY ? val("6B5B") : 0);
+    (b1dY ? autofill_6B5A_H : val("6B5A")) +
+    (b1aN ? val("6B5B"): (b3dY ? autofill_6B5B_H : 0));
 
   //-------6C--------
 
@@ -91,6 +97,15 @@ export function computeSection6(answers, qaw) {
     IF_6C_6None_add_6C4 +
     val("6C1") +
     val("6C5B");
+
+  console.log("Section 6C Intermediate+++++++++")
+  console.log("6C6=", val("6C6"))
+  console.log("6C7=", val("6C7"))
+  console.log("IF_6C_6None_add_6C3=", IF_6C_6None_add_6C3)
+  console.log("IF_6C_6None_add_6C4=", IF_6C_6None_add_6C4)
+  console.log("6C1=", val("6C1"))
+  console.log("6C5B=", val("6C5B"))
+  console.log("I_6C=", I_6C)
 
   // -------6D--------
 

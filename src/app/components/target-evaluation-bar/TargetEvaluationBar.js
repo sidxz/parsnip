@@ -7,8 +7,10 @@ import "primeflex/primeflex.css";
 
 import { useUIStore } from "@/app/stores/useUIStore";
 import { useQuestionStore } from "@/app/stores/useQuestionStore";
+import { Dropdown } from "primereact/dropdown";
+import { FileUpload } from "primereact/fileupload";
 
-const TargetEvaluationBar = ({ onEvaluate }) => {
+const TargetEvaluationBar = ({ onEvaluate, downloadQuestionnaireAnswers }) => {
   const {
     selectedTargetName,
     setSelectedTargetName,
@@ -16,7 +18,7 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
     setSelectedGenes,
   } = useUIStore();
 
-  const { loadQuestionnaireFromUrl, loadingQuestionnaire } = useQuestionStore();
+  const { loadQuestionnaireFromUrl, loadingQuestionnaire, loadQuestionnaire } = useQuestionStore();
 
   const toast = useRef(null);               // <-- add toast ref
   const [loadingGenes, setLoadingGenes] = useState(true);
@@ -39,8 +41,17 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
   const formatGeneName = (name) =>
     !name || typeof name !== "string" ? "" : name.charAt(0).toUpperCase() + name.slice(1);
 
-  const onGeneChange = (e) => {
-    const sel = e.value || [];
+  // const onGeneChange = (e) => {
+  //   const sel = e.value || [];
+  //   setSelectedGenes(sel);
+  //   const joined = sel.length
+  //     ? sel.map((g) => formatGeneName(g?.Name ?? "")).filter(Boolean).join("-")
+  //     : "";
+  //   setSelectedTargetName(joined);
+  // };
+
+    const onGeneChange = (e) => {
+    const sel = [e.value] || [];
     setSelectedGenes(sel);
     const joined = sel.length
       ? sel.map((g) => formatGeneName(g?.Name ?? "")).filter(Boolean).join("-")
@@ -63,13 +74,41 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
     });
   };
 
+  const handleLoadFromFile = (event) => {
+    const file = event.files && event.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target.result;
+        const json = JSON.parse(content);
+        loadQuestionnaire(json);
+        toast.current?.show({
+          severity: "success",
+          summary: "Loaded",
+          detail: `Questionnaire loaded from ${file.name}`,
+          life: 3000,
+        });
+      } catch (err) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: `Failed to load questionnaire from ${file.name}: ${err.message}`,
+          life: 5000,
+        });
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="flex justify-content-between align-items-center p-3 w-full surface-100">
       <Toast ref={toast} position="top-right" /> {/* toast host */}
 
       <div className="flex">
-        <MultiSelect
-          value={selectedGenes}
+        <Dropdown
+          value={selectedGenes[0]}
           loading={loadingGenes}
           onChange={onGeneChange}
           options={genes}
@@ -93,24 +132,37 @@ const TargetEvaluationBar = ({ onEvaluate }) => {
 
       <div className="flex justify-content-end gap-1">
         <Button
-          label="Evaluate Proposed Target"
-          icon="pi pi-check"
-          onClick={onEvaluate}
-          disabled={selectedGenes.length === 0 || !selectedTargetName}
-        />
-        <Button
           label="Load Answers for TBDA Target"
           icon="pi pi-refresh"
           onClick={handleLoadTbdaTarget}
           loading={loadingQuestionnaire}
           disabled={selectedGenes.length === 0 || !selectedTargetName}
         />
-        {/* <Button label="Upload PDF" icon="pi pi-upload" />
         <Button
-          label="Download PDF"
+          label="Evaluate Proposed Target"
+          icon="pi pi-check"
+          onClick={onEvaluate}
+          disabled={selectedGenes.length === 0 || !selectedTargetName}
+        />
+        
+        {/* <Button label="Upload PDF" icon="pi pi-upload" /> */}
+        <Button
+          label="Download"
           icon="pi pi-download"
           disabled={selectedGenes.length === 0 || !selectedTargetName}
-        /> */}
+          onClick={downloadQuestionnaireAnswers}
+        />
+
+        <FileUpload
+          mode="basic"
+          auto
+          chooseLabel="Upload JSON"
+          accept="application/json"
+          maxFileSize={1000000}
+          customUpload
+          uploadHandler={handleLoadFromFile}
+          multiple={false}
+        />
       </div>
     </div>
   );

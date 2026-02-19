@@ -1,36 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PARSNIP
 
-## Getting Started
+To view the latest release, please visit  
+**https://parsnip-56158.web.app**
 
-First, run the development server:
+## Protein Assessment and Ranking System for Novel Input
+Designed to support the early stages of anti-TB research, PARSNIP is an open-source tool that ranks potential drug targets using a multi-dimensional scoring system. It evaluates proteins based on their biological importance, safety profile, and "druggability," providing a clear, visual way to compare different targets. As a public companion to the internal DAIKON system, it empowers the global research community to make evidence-based decisions and refine target priorities in real-time, offering a template that can be used for various bacterial threats.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Part of the DAIKON Ecosystem
+PARSNIP serves as the public-facing companion to DAIKON (Data Acquisition, Integration, and Knowledge Capture), an open-source framework developed to manage the early drug discovery pipeline, from target identification through portfolio management. DAIKON is currently implemented in the TB Drug Accelerator (TBDA) program, a partnership of pharmaceutical companies, academic institutions, and research groups supported by the Gates Foundation.
+Within DAIKON, the target prioritization module functions as an abstract layer that accepts quantitative or qualitative scoring inputs and promotes high-priority proteins from the gene pool into the active target pipeline. PARSNIP implements and exposes this module publicly, enabling the broader research community to apply the same evidence-based prioritization logic used internally by TBDA collaborators, without requiring access to the full DAIKON platform.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For more on the DAIKON framework, see: Rath et al., ACS Pharmacology & Translational Science, 2023. [https://doi.org/10.1021/acsptsci.3c00034](https://pubs.acs.org/doi/10.1021/acsptsci.3c00034)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ A full user manual for DAIKON, including detailed documentation on the Targets module, is available at: [https://saclab.github.io/daikon/docs/category/targets](https://saclab.github.io/daikon/docs/category/targets)

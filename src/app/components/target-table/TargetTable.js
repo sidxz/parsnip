@@ -6,6 +6,7 @@ import { InputNumber } from "primereact/inputnumber";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import { useTargetsStore } from "@/app/stores/useTargetStore";
+import { STRING_CONSTANTS } from "@/app/lib/strings";
 
 const registerRangeRule = (ruleName) => {
   if (!FilterService.filters[ruleName]) {
@@ -98,7 +99,7 @@ const TargetTable = () => {
         />
         <Column
           field="chemicalInhibitionScore"
-          header="Chemical Inhibition"
+          header={STRING_CONSTANTS.CHEMICAL_IN}
           sortable
           filter
           filterMatchMode="custom"
@@ -113,7 +114,7 @@ const TargetTable = () => {
         />
         <Column
           field="geneticInhibitionScore"
-          header="Genetic Inhibition"
+          header={STRING_CONSTANTS.GENETIC_IN}
           sortable
           filter
           filterMatchMode="custom"
@@ -128,7 +129,7 @@ const TargetTable = () => {
         />
         <Column
           field="likelihoodScore"
-          header="Likelihood"
+          header={STRING_CONSTANTS.LIKELIHOOD}
           sortable
           filter
           filterMatchMode="custom"
