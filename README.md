@@ -17,4 +17,4 @@ A full user manual for DAIKON, including detailed documentation on the Targets m
 The DAIKON codebase is available on GitHub:
 
 Frontend: https://github.com/sidxz/Daikon2-FE
-All repositories: https://github.com/sidxz
+Backend: [https://github.com/sidxz](https://github.com/sidxz/Daikon)
