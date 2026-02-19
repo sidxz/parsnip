@@ -24,19 +24,19 @@ export default function Home() {
 
       <div className="flex gap-1">
         <div className="flex">
-          <Link href="#">
+          <Link href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
             <Button
               link
               label="Publication"
               className="button-sm"
-              icon="pi pi-external-link"
+              icon="pi pi-file-pdf"
             />
           </Link>
         </div>
         <div className="flex">
           <Link
             href="https://saclab.github.io/daikon/docs/user-guide/Introduction">
-            <Button link label="DAIKON" icon="pi pi-external-link" />
+            <Button link label="DAIKON" className="button-sm" icon="pi pi-objects-column" />
           </Link>
         </div>
         <div className="flex">
