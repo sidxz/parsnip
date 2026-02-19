@@ -12,4 +12,4 @@ Within DAIKON, the target prioritization module functions as an abstract layer t
 
 For more on the DAIKON framework, see: Rath et al., ACS Pharmacology & Translational Science, 2023. [https://doi.org/10.1021/acsptsci.3c00034](https://pubs.acs.org/doi/10.1021/acsptsci.3c00034)
 
- A full user manual for DAIKON, including detailed documentation on the Targets module, is available at: [https://saclab.github.io/daikon/docs/category/targets](https://saclab.github.io/daikon/docs/category/targets)
+ A full user manual for DAIKON, including detailed documentation on the Targets module, is available at: [https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip](https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip)
