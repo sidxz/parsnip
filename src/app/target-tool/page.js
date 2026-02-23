@@ -149,6 +149,19 @@ export default function TargetTool() {
       <div className="flex flex-column border-0 align-items-center justify-content-center p-2 surface-100 gap-2">
         <div className="flex text-3xl text-primary font-bold">PARSNIP</div>
         <div className="flex text-xs p-0 align-items-center justify-content-end pr-3">
+
+          <Link
+            href="https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip">
+            <Button
+            className="p-0 m-0 text-xs pr-3"
+            link
+            label="Introduction"
+            icon="pi pi-home"
+          />
+          </Link>
+
+
+
           <Link
             href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
             <Button

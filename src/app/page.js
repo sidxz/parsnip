@@ -24,6 +24,16 @@ export default function Home() {
 
       <div className="flex gap-1">
         <div className="flex">
+          <Link href="https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip">
+            <Button
+              link
+              label="Introduction"
+              className="button-sm"
+              icon="pi pi-home"
+            />
+          </Link>
+        </div>
+        <div className="flex">
           <Link href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
             <Button
               link
