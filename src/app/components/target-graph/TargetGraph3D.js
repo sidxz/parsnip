@@ -15,7 +15,7 @@ const Plot = dynamic(() => import("react-plotly.js"), {
 
 export default function TargetGraph3D({ scores, evaluatedTarget = "" }) {
   const { targets, loadingTargets } = useTargetsStore();
-  const [showOctanes, setShowOctanes] = React.useState(false);
+  const [showOctanes, setShowOctanes] = React.useState(true);
 
   if (loadingTargets) {
     return (

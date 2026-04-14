@@ -163,7 +163,7 @@ export default function TargetTool() {
 
 
           <Link
-            href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
+            href="https://link.springer.com/article/10.1038/s44321-026-00415-7">
             <Button
             className="p-0 m-0 text-xs pr-3"
             link
@@ -174,7 +174,7 @@ export default function TargetTool() {
          
           <div className="flex">
           <Link
-            href="https://saclab.github.io/daikon/docs/user-guide/Introduction">
+            href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
             <Button className="p-0 m-0 text-xs pr-3" link label="DAIKON" icon="pi pi-objects-column" />
           </Link>
         </div>
@@ -214,7 +214,7 @@ export default function TargetTool() {
       <div className="flex border-0 w-full p-1 surface-border gap-2">
         <div className="flex border-1 border-50 w-6">
           <TabView scrollable className="w-full">
-            <TabPanel header="All Dimensions">
+            <TabPanel header="All">
               <TargetGraph3D
                 scores={scores}
                 evaluatedTarget={selectedTargetName}

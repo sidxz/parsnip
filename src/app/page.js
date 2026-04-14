@@ -34,7 +34,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex">
-          <Link href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
+          <Link href="https://link.springer.com/article/10.1038/s44321-026-00415-7">
             <Button
               link
               label="Publication"
