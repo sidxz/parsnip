@@ -148,66 +148,25 @@ export default function TargetTool() {
     <div className="flex flex-column w-full">
       <div className="flex flex-column border-0 align-items-center justify-content-center p-2 surface-100 gap-2">
         <div className="flex text-3xl text-primary font-bold">PARSNIP</div>
-        <div className="flex text-xs p-0 align-items-center justify-content-end pr-3">
-
-          <Link
-            href="https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip">
-            <Button
-            className="p-0 m-0 text-xs pr-3"
-            link
-            label="Introduction"
-            icon="pi pi-home"
-          />
+        <div className="flex p-2 align-items-center gap-2 flex-wrap justify-content-center">
+          <Link href="https://saclab.github.io/daikon/docs/user-guide/Targets/parsnip">
+            <Button label="Introduction" icon="pi pi-home" size="small" className="parsnip-nav-btn" />
           </Link>
-
-
-
-          <Link
-            href="https://link.springer.com/article/10.1038/s44321-026-00415-7">
-            <Button
-            className="p-0 m-0 text-xs pr-3"
-            link
-            label="Publication"
-            icon="pi pi-file-pdf"
-          />
+          <Link href="https://link.springer.com/article/10.1038/s44321-026-00415-7">
+            <Button label="Publication" icon="pi pi-file-pdf" size="small" className="parsnip-nav-btn" />
           </Link>
-         
-          <div className="flex">
-          <Link
-            href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
-            <Button className="p-0 m-0 text-xs pr-3" link label="DAIKON" icon="pi pi-objects-column" />
+          <Link href="https://pubs.acs.org/doi/10.1021/acsptsci.3c00034">
+            <Button label="DAIKON" icon="pi pi-objects-column" size="small" className="parsnip-nav-btn" />
           </Link>
-        </div>
-          <div className="flex">
-            <Link href="https://www.tbdrugaccelerator.org/">
-              <Button
-                className="p-0 m-0 text-xs pr-3"
-                link
-                label="TB Drug Accelerator"
-                icon="pi pi-wave-pulse"
-              />
-            </Link>
-          </div>
-          <div className="flex">
-            <Link href="https://github.com/sidxz/parsnip">
-              <Button
-                className="p-0 m-0 text-xs pr-3"
-                link
-                label="GitHub"
-                icon="pi pi-github"
-              />
-            </Link>
-          </div>
-          <div className="flex">
-            <Link href="/target-tool/bulk">
-              <Button
-                className="p-0 m-0 text-xs pr-3"
-                link
-                label="Bulk Evaluate"
-                icon="pi pi-list"
-              />
-            </Link>
-          </div>
+          <Link href="https://www.tbdrugaccelerator.org/">
+            <Button label="TB Drug Accelerator" icon="pi pi-wave-pulse" size="small" className="parsnip-nav-btn" />
+          </Link>
+          <Link href="https://github.com/sidxz/parsnip">
+            <Button label="GitHub" icon="pi pi-github" size="small" className="parsnip-nav-btn" />
+          </Link>
+          <Link href="/target-tool/bulk">
+            <Button label="Bulk Evaluate" icon="pi pi-list" size="small" className="parsnip-nav-btn" />
+          </Link>
         </div>
       </div>
 

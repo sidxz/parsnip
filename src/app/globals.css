@@ -30,4 +30,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── PARSNIP Nav Buttons ─────────────────────────────────── */
+.parsnip-nav-btn.p-button {
+  border-radius: 999px !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  padding: 0.45rem 1.1rem !important;
+  letter-spacing: 0.01em !important;
+  border: 1.5px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transition: all 0.18s ease !important;
+}
+
+.parsnip-nav-btn.p-button:hover {
+  background: var(--primary-color) !important;
+  color: var(--primary-color-text) !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+.parsnip-nav-btn.p-button:active {
+  transform: translateY(0) !important;
+  box-shadow: none !important;
+}
+
+.parsnip-nav-btn.p-button .p-button-icon {
+  font-size: 0.78rem !important;
+}
+
 
