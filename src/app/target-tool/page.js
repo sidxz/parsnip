@@ -198,6 +198,16 @@ export default function TargetTool() {
               />
             </Link>
           </div>
+          <div className="flex">
+            <Link href="/target-tool/bulk">
+              <Button
+                className="p-0 m-0 text-xs pr-3"
+                link
+                label="Bulk Evaluate"
+                icon="pi pi-list"
+              />
+            </Link>
+          </div>
         </div>
       </div>
 
